@@ -1,6 +1,7 @@
 % Electronic supplementary material for the AAS manuscript. Compile with pdfLaTeX (separate document).
 % v8 (2026-09-26): naming aligned with the main text (PS-PaE-Fuse; objective experiment), implementation
 % notes of the objective experiment moved here from the main text, and Tables S10--S11 added.
+% v11 (2026-10-09): author metadata synchronized with the main manuscript.
 \documentclass[12pt]{article}
 \usepackage{atmosphere}
 \input{command}
@@ -22,8 +23,19 @@ Electronic Supplementary Material for\\
 Extreme-Aware Fusion of Multi-Model AI Weather Forecasts: Joint Optimization of Overall Skill and Event Detection
 \vspace*{-3mm}}
 \date{}
-\author{\\[-17mm]\fontsize{12}{12}\colorbox{yellow}{Author list as in the main text}}
+\author{\\[-17mm]\fontsize{12}{12}
+Ruxue XING$^{1,\dagger}$, Jianjun ZHU$^{1,\dagger}$,
+Lang ZHENG$^{1}$, and Yaojun WANG$^{1,*}$}
 \maketitle
+
+\begingroup
+\renewcommand{\thefootnote}{}
+\footnotetext{\setlength{\baselineskip}{12pt}$^{\dagger}$Ruxue XING and Jianjun ZHU contributed equally to this work.\newline
+*Corresponding author: Yaojun WANG\newline
+Email: \href{mailto:wangyaojun@cau.edu.cn}{wangyaojun@cau.edu.cn}}
+\endgroup
+
+\add{$^1$College of Information and Electrical Engineering, China Agricultural University, Beijing 100083, China}
 
 \noindent This file contains the implementation details of the linear-stacking objective experiment, Tables S1--S11 and Figs.~S1--S3 referred to in the main text. Values are reported from the archived evaluation records. The original table-generation scripts were not included in the supplied Overleaf archive.
 

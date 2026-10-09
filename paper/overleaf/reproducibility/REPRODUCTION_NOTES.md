@@ -17,3 +17,7 @@ The scripts under `archive/server_scripts/` preserve the original server paths
 and are included as execution provenance. They are not claimed to be portable
 launchers without environment- and path-specific editing.
 
+Paths in these instructions refer to the GitHub repository layout. This Overleaf
+package includes a copy of the checkpoint manifest as
+`reproducibility/checkpoint_manifest.json`; it does not bundle model binaries.
+

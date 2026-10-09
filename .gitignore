@@ -20,4 +20,6 @@ __MACOSX/
 *.nc
 *.grib
 *.grib2
+release_assets/
+lfs/
 

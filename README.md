@@ -34,10 +34,22 @@ surface-wind detection.
 
 ## Frozen checkpoints
 
-The four frozen checkpoint files are published as assets of the
+The four frozen checkpoint files are being deposited as assets of the
 [`v1.0-paper-assets`](https://github.com/NIKI1924/PS-PaE-Fuse/releases/tag/v1.0-paper-assets)
 release. They are not stored in Git history because each file is approximately
-117 MB. Verify every download against `checkpoints/manifest.json`.
+117 MB. Publication is pending until all four assets appear on the release.
+Verify every download against `checkpoints/manifest.json`.
+
+## Latest manuscript
+
+The Overleaf sources include the author-confirmed Figure 6 layout and author
+metadata: Ruxue XING and Jianjun ZHU share first authorship; all four authors
+are affiliated with China Agricultural University; Yaojun WANG is the
+corresponding author. The title has not changed.
+
+Compile `main.tex` twice with pdfLaTeX from `paper/overleaf/`, or compile
+`supplement.tex` separately for the supplementary material. Release assets
+will include the complete Overleaf ZIP and compiled PDFs for this version.
 
 ## Upstream forecasts and data
 
