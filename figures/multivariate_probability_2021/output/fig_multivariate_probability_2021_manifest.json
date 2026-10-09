@@ -1,0 +1,36 @@
+{
+  "figure": "fig_multivariate_probability_2021",
+  "scope": "Corrected 2021 all-grid six-variable RMSE and q97.5 wind reliability",
+  "skill_definition": "100 * (RMSE_Pangu - RMSE_method) / RMSE_Pangu",
+  "probability_comparison": "three-seed mean of phase-selective router output without safeguard versus EMOS",
+  "input_files": {
+    "all_metrics.csv": "9db9aa1ea76d153d4294660ef625c17804e2c6172fc9da3a2f3c994042b3a631",
+    "spatial_probabilistic_2021_extended.json": "5216e7bae3bae7f76a5f4d24b05db8237422cfda1a2743aba81eb7718faef1c3"
+  },
+  "lead_hours": [
+    72,
+    120,
+    168
+  ],
+  "variables": [
+    "T2M",
+    "U10",
+    "V10",
+    "MSL",
+    "Z500",
+    "T850"
+  ],
+  "methods": [
+    "GraphCast",
+    "FuXi",
+    "HRES",
+    "Simple mean",
+    "Global-skill expert",
+    "PS-PaE-Fuse without safeguard"
+  ],
+  "outputs": {
+    ".pdf": "a4a4abb39ae89d83e02e97a8c06c49b90779edbc7cfc6d3d9b291e941a27c2de",
+    ".svg": "e00e7f76789f6cc9bf6a89816ccf3278098fbf7ca556242c2e06bf4880e822f8",
+    ".png": "90fc9abbd5b406e673ce2048f89e074ae2258dfaf319c0f1df7b6a2af7e886bd"
+  }
+}

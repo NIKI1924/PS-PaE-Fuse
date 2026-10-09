@@ -1,0 +1,222 @@
+% Electronic supplementary material for the AAS manuscript. Compile with pdfLaTeX (separate document).
+% v8 (2026-09-26): naming aligned with the main text (PS-PaE-Fuse; objective experiment), implementation
+% notes of the objective experiment moved here from the main text, and Tables S10--S11 added.
+\documentclass[12pt]{article}
+\usepackage{atmosphere}
+\input{command}
+\usepackage{soul}
+\usepackage{xurl}
+\newcommand{\fitTable}[1]{\begingroup\linespread{1}\selectfont\setbox0=\hbox{#1}\ifdim\wd0>\linewidth\setbox0=\hbox{\resizebox{\linewidth}{!}{\box0}}\fi\ifdim\dimexpr\ht0+\dp0\relax>.68\textheight\resizebox*{!}{.68\textheight}{\box0}\else\box0\fi\endgroup}
+\sethlcolor{yellow}
+\newcommand{\todo}[1]{\hl{#1}}
+\newcommand{\todobox}[1]{\par\noindent\colorbox{yellow}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\small #1}}\par}
+\newcommand{\mps}{m s$^{-1}$}
+\graphicspath{{figures/}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+\begin{document}
+
+\title{\vspace*{-20mm}\fontsize{12}{12}\bf
+Electronic Supplementary Material for\\
+Extreme-Aware Fusion of Multi-Model AI Weather Forecasts: Joint Optimization of Overall Skill and Event Detection
+\vspace*{-3mm}}
+\date{}
+\author{\\[-17mm]\fontsize{12}{12}\colorbox{yellow}{Author list as in the main text}}
+\maketitle
+
+\noindent This file contains the implementation details of the linear-stacking objective experiment, Tables S1--S11 and Figs.~S1--S3 referred to in the main text. Values are reported from the archived evaluation records. The original table-generation scripts were not included in the supplied Overleaf archive.
+
+\section{Implementation of the linear-stacking objective experiment}
+
+The objective experiment isolates the training objective in the simplest model that can express a trade-off. A linear stacking with 90 parameters maps the four members to a fused field for each variable and lead time. For each of six variables and three lead times, four coefficients and one bias define a correction from the normalized member forecasts; the correction is multiplied by the training-only error scale and added to the arithmetic member mean, giving $(4+1)\times6\times3=90$ trainable coefficients. The training loss is
+\begin{equation}
+L_{\lambda} = \mathrm{nMSE} + \lambda\,\bigl(1 - \mathrm{CSI}^{\mathrm{soft}}_{20}\bigr),
+\label{eq:jointS}
+\end{equation}
+where nMSE is the latitude-weighted mean-square error divided by the squared training-only RMSE of the arithmetic member mean for each variable and averaged over the six variables and three lead times. The event term uses $p=\mathrm{sigmoid}[(\sqrt{\hat u^2+\hat v^2+10^{-8}}-20)/\tau]$, with $\tau=1$ \mps\ and the observed indicator $o=\mathbb{1}(\sqrt{u^2+v^2}\geq20)$. Within each lead-time group, $\mathrm{CSI}^{\mathrm{soft}}_{20}=\sum wp o/[\sum w(p+o-po)+10^{-6}]$, where $w$ is the cosine-latitude weight; the event loss is averaged over the lead groups present in the batch. Four weights were trained: $\lambda = 0$ (overall error only), $\lambda = 0.15$, a tenfold $\lambda = 1.5$ and $\lambda = 3.18$ (unrounded: 3.181574748), obtained from the median initial gradient-norm ratio over 32 fixed training batches. Every model starts from the same ridge-regression initialization and uses AdamW for 16 epochs (batch size 24, learning rate $3\times10^{-4}$, weight decay $10^{-4}$), with three shuffle seeds (123, 456 and 789). The checkpoint is selected on the 2020 selection dates by minimizing the common functional $Q = \mathrm{nMSE} + 0.15\,(1 - \mathrm{CSI}_{20})$ evaluated on the safeguarded output, so that the $\lambda = 0$ control shares the selection rule and differs only in the training gradient. A 28-date diagnostic set of 2020 reports development behaviour (Table~\ref{tab:dev}). The 12 checkpoints were then frozen and evaluated on the 2021 sample without any further choice.
+
+Every checkpoint is evaluated on its raw output and after a common wind-vector safeguard: where at least two members forecast wind speed of 15 \mps\ or more and the fastest member exceeds the fused speed, the fused U10 and V10 are blended toward the strongest member with weight $\alpha = 0.75$; the other four variables are untouched. The same rule is applied to the ridge initialization and to the simple mean, so that every comparison of a joint model has a matched control at both output stages. This rule differs from the PS-PaE-Fuse safeguard (local q95 trigger, $\alpha = 1$) in trigger and blending weight, so the objective experiment and PS-PaE-Fuse are separate experiments rather than one ablation ladder.
+
+\clearpage
+\section{Development-set behaviour of the joint objective (2020)}
+
+Table~\ref{tab:dev} lists the 2020 selection-set and diagnostic-set scores of the four objectives of the linear-stacking experiment. The selection set was used to choose the checkpoint with the common functional $Q$; the diagnostic set was held out from that choice but belongs to the 2020 development cycle and is not an independent year. Both sets show the ordering that the frozen 2021 test reproduces at smaller amplitude.
+
+\begin{table}[h!]
+\caption{Development scores of the linear-stacking objective experiment on the 2020 selection set (36 dates) and diagnostic set (28 dates), three-seed means with the sample standard deviation over seeds in parentheses for CSI$_{20}$.}
+\label{tab:dev}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\fitTable{\input{tables/tabS_dev2020}}}
+\end{table}
+
+\clearpage
+\section{Six-variable results on the 2021 sample}
+
+Table~\ref{tab:sixvar} gives the equal-lead RMSE of all six variables for the learned experts of PS-PaE-Fuse (before the safeguard) and the simple statistical controls on the coordinate-verified 2021 sample. Table~\ref{tab:sixcost} gives the per-variable, per-lead RMSE cost of the three joint objectives of the linear-stacking experiment relative to the $\lambda=0$ control at both output stages.
+
+\begin{table}[h!]
+\caption{Equal-lead RMSE over the 22 initialization dates of 2021 for the four members, four simple combinations, the global-skill expert and PS-PaE-Fuse without the safeguard for the three frozen router seeds. Z500 is geopotential in m$^{2}$ s$^{-2}$. Upper-air values use the coordinate-verified ERA5 reference.}
+\label{tab:sixvar}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\footnotesize
+\fitTable{\input{tables/tabS_sixvar_rmse2021}}}
+\end{table}
+
+\begin{table}[h!]
+\caption{RMSE of the $\lambda=0$ control of the linear-stacking experiment by variable and lead time (three-seed means), and the relative RMSE change (\%) of the three joint objectives at the same output stage; negative values are lower error. The safeguard changes U10 and V10 only.}
+\label{tab:sixcost}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\footnotesize
+\fitTable{\input{tables/tabS_sixvar_cost2021}}}
+\end{table}
+
+\clearpage
+\section{Weather-type stratification: full paired table}
+
+\begin{table}[h!]
+\linespread{1}\selectfont
+\caption{All paired comparisons of the weather-type stratification on the sealed 2022 sample (seed 123), with 95\% intervals from 2\,000 resamples of the stratum units. Tropical cyclones: 92 storm identifiers (81 with an event); cold surge and non-tropical high wind: 32 initialization dates. U10 RMSE and CRPS are computed on observed event cells; Brier scores are available only for the probabilistic outputs of PS-PaE-Fuse.}
+\label{tab:wt}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\footnotesize
+\fitTable{\input{tables/tabS_weathertype2022}}}
+\end{table}
+
+\clearpage
+\section{Seasonal values of the 2022 scorecard}
+
+\begin{table}[h!]
+\caption{Numerical values plotted in Fig.~2 of the main text: equal-lead scores over all 32 sealed 2022 dates and by season (7, 8, 8 and 9 dates in DJF, MAM, JJA and SON). PS-PaE-Fuse rows are three-seed means.}
+\label{tab:seasonal}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\footnotesize
+\fitTable{\input{tables/tabS_seasonal2022}}}
+\end{table}
+
+\clearpage
+\section{Diagnostics of observed wind at or above 25 \mps}
+
+\begin{table}[h!]
+\caption{Area-weighted decomposition of the observed 2022 area with wind speed at or above 25 \mps\ (32 dates, three-seed means). ``No member reaches 25 \mps'' and ``fewer than two supporting members'' are not mutually exclusive categories. The mean shortfall is the fused forecast speed deficit averaged over missed cells.}
+\label{tab:diag25}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\fitTable{\input{tables/tabS_diag25_2022}}}
+\end{table}
+
+\clearpage
+\section{Calendar-block sensitivity of the 2021 paired differences}
+
+\begin{table}[h!]
+\caption{CSI$_{20}$ differences between each joint objective of the linear-stacking experiment and the $\lambda=0$ control on the 2021 sample, with 95\% intervals from resampling initialization dates, 7-day calendar blocks and 14-day calendar blocks (2\,000 draws each). Intervals are pointwise sensitivity intervals of a sparse reused sample.}
+\label{tab:calendar}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\fitTable{\input{tables/tabS_calendar2021}}}
+\end{table}
+
+\clearpage
+\section{Alert-frequency migration of the development-matched control}
+
+\begin{table}[h!]
+\caption{Alert-area fractions of the development-matched control: the target and achieved frequencies on the 2020 development fields, and the frequencies of the safeguarded simple mean and of the control on the 32 sealed 2022 dates. The 25 \mps\ cell at 120 h has a zero development target and is descriptive only.}
+\label{tab:alertmig}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\fitTable{\input{tables/tabS_alertmig2022}}}
+\end{table}
+
+\clearpage
+\section{Development-set probabilistic calibration heads (candidate results)}
+
+The main text reports that a single shared scale factor recovers about one third of the Brier-score loss caused by the safeguard. Two development-set experiments explored learned calibration heads on top of the fixed fused mean; both used reused 2020 dates and neither has been confirmed on external data, so they are candidates rather than results. Table~\ref{tab:heads} lists the headline scores as archived in the development result files.
+
+\begin{table}[h!]
+\linespread{1}\selectfont
+\caption{Development-set scores of probabilistic calibration heads (2020 data only). ``Pilot'' rows: a 3\,303-parameter conditional head evaluated on a 10-date head hold-out; ``joint'' rows: the same head trained with and without a tail Brier term on a reused 8-date validation set. Normalized CRPS is averaged over the six variables. Values are archived development scores and are not comparable with the 2022 numbers of the main text.}
+\label{tab:heads}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\begin{tabular}{lcc}
+\hline
+Head & Mean normalized CRPS & Brier, q97.5 wind \\
+\hline
+Pilot: shared scale 1.6 & 0.2931 & 0.02549 \\
+Pilot: common forecast features & 0.2898 & 0.02637 \\
+Pilot: final-state features & 0.2906 & 0.02570 \\
+Pilot: final-state and phase features & 0.2921 & 0.02648 \\
+Joint: CRPS and U/V joint likelihood & 0.3010 & 0.02384 \\
+Joint: with tail Brier term & 0.2967 & 0.02373 \\
+\hline
+\end{tabular}}
+\end{table}
+\noindent The pilot rows correspond to the archived keys \path{historical_1p6}, \path{common_only}, \path{final_state}, and \path{final_state_phase}; the joint rows correspond to \path{reference} and \path{A2}. Their displayed values have been checked against the archived development metrics. These experiments used historical cached verification fields and remain development-only diagnostics; they do not establish a result on the coordinate-corrected upper-air reference or an external year.
+
+\clearpage
+\section{Paired differences of the linear-stacking objective experiment (2021)}
+
+\begin{table}[h!]
+\caption{Paired differences of the linear-stacking objective experiment on the 2021 sample with 95\% intervals from 2\,000 draws of initialization dates (same draws for all systems, seed differences averaged within date). Positive $\Delta$CSI$_{20}$ favours the first-named system; negative $\Delta$nMSE and $\Delta Q$ favour it.}
+\label{tab:paired}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\fitTable{\input{tables/tab_paired2021}}}
+\end{table}
+
+\clearpage
+\section{Interaction of the joint objective with the common safeguard (2021)}
+
+\begin{table}[h!]
+\caption{Interaction of the joint objective with the common safeguard on the 2021 sample for 20 \mps\ events, by lead time (three-seed means). ``Own raw$\to$safeguarded'' is the CSI change produced by the safeguard on the joint model itself; the two ``Joint $-$ MSE'' columns are the differences to the $\lambda=0$ control before and after the safeguard; the hit and false-alarm terms are the symmetric algebraic decomposition of the safeguarded difference; $I$ is the equal-lead interaction (safeguarded difference minus raw difference) with its leave-one-date-out range.}
+\label{tab:interaction}
+\vspace*{2mm}
+\centering
+{\linespread{1.0}\selectfont\small
+\fitTable{\input{tables/tab_interaction2021}}}
+\end{table}
+
+\clearpage
+\section{Per-lead detection scores of the linear-stacking objectives}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{figS_lead_2021.pdf}
+\caption{CSI, POD and FAR for 20 \mps\ wind events on the 2021 sample by lead time (three-seed means) for the four training objectives of the linear-stacking experiment, (a--c) on raw output and (d--f) after the common safeguard. At 168 h the 20 \mps\ CSI of every system is close to zero and the differences are not meaningful.}
+\label{fig:lead}
+\end{figure}
+
+
+\clearpage
+\section{Weather-type scores by lead time}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{figS_strata_by_lead_2022.pdf}
+\caption{Weather-type scores by lead time on the sealed 2022 sample (frozen models; the lead-resolved accumulators reproduce Table~S4). (a--c) q97.5 CSI with 95\% intervals, other systems in grey; titles give the units with events per lead. (d--f) Paired CSI and (g--i) FAR differences of PS-PaE-Fuse from Pangu-Weather (red) and from the configuration without safeguard (blue), with 95\% intervals from 2\,000 resamples; open symbols: the interval includes zero. Cold-surge masks exist only at 120 and 168 h.}
+\label{fig:strata_lead}
+\end{figure}
+
+
+\clearpage
+\section{Skill--detection frontier of the objective experiment}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=\textwidth]{figS_frontier_2021.pdf}
+\caption{Normalized MSE against equal-lead CSI$_{20}$ for the four training objectives of the 2021 objective experiment (three-seed means, small symbols: single seeds), raw (open) and after the common safeguard (filled), with the ridge and simple-mean controls of Table~5 of the main text. The axis is broken because the simple mean lies about 0.02 higher in normalized MSE.}
+\label{fig:frontier}
+\end{figure}
+
+\end{document}

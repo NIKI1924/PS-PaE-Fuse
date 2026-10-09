@@ -1,0 +1,67 @@
+\newenvironment{Exercises}[1][10.]{
+\refbt{REFERENCES}
+\begin{list}
+{\hfill }{
+\settowidth{\labelwidth}{\bfseries #1}%
+\setlength{\labelsep}{0pt}%
+\setlength{\topsep}{0bp}%
+\setlength{\partopsep}{0pt}%
+\setlength{\parskip}{0pt}%
+\setlength{\itemsep}{0bp}%
+\setlength{\leftmargin}{\labelwidth+\labelsep}%
+\usecounter{enumi}}}{\end{list}\smallskip}
+
+\def\tablename{\bf Table}
+\def\figurename{\bf Fig.~}
+
+\newcommand{\refbt}[1]{\centering #1}
+
+\def\acknowledgmentsname{{\it Acknowledgements}.\ }
+
+\newcommand{\add}[1]{\vspace*{-19mm}\begin{center}{\small\it #1}\end{center}}
+
+\newcommand{\keywords}[1]{
+\begin{center}
+\parbox[t]{153mm}{\noindent{\bf Keywords:}\ #1}
+\end{center}}
+
+\newcommand{\abs}[1]{\vspace*{-5mm}
+\begin{center}
+{\bf ABSTRACT}
+\end{center}
+\vspace*{-5mm}
+
+#1}
+
+\newcommand{\bte}[1]{\vspace*{3mm}\noindent #1}
+
+
+\setlength{\parskip}{0mm}
+\setlength{\arraycolsep}{0.5mm}
+
+\makeatletter
+\newskip\@footindent
+\@footindent=2.5mm
+
+\renewcommand\footnoterule{\kern6\p@ \hrule width 0.4\columnwidth \kern4\p@}
+\@addtoreset{footnote}{page}
+
+\renewcommand\thesection{\arabic{section}.}
+\renewcommand\thesubsection{\arabic{section}.\arabic{subsection}}
+\renewcommand\thesubsubsection{\arabic{section}.\arabic{subsection}.\arabic{subsubsection}}
+
+\titleformat{\section}{\bf\normalsize}{\thesection}{.5em}{}
+\titlespacing{\section}{0mm}{5mm}{0mm}
+
+\titleformat{\subsection}{\bf\normalsize\it}{\thesubsection}{1em}{}
+\titlespacing{\subsection}{0mm}{3mm}{0mm}
+
+\titleformat{\subsubsection}{\normalfont\normalsize\it}{\thesubsubsection}{1em}{}
+\titlespacing{\subsubsection}{0mm}{3mm}{0mm}
+
+\titleformat{\paragraph}{\normalfont\normalsize\it}{\thesubsubsection}{1em}{}
+\titlespacing{\subsubsection}{0mm}{3mm}{0mm}
+
+
+
+\linespread{2} 

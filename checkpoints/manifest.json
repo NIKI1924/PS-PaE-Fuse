@@ -1,0 +1,35 @@
+{
+  "release_tag": "v1.0-paper-assets",
+  "release_url": "https://github.com/NIKI1924/PS-PaE-Fuse/releases/tag/v1.0-paper-assets",
+  "artifacts": [
+    {
+      "role": "global_skill_expert",
+      "filename": "global_skill_seed123_best_epoch16.pt",
+      "bytes": 117475500,
+      "sha256": "9f1f1ce692d6437bc6c382b1af239bdac80b067da8b241e14c1ed81cfcf07016",
+      "seed": 123,
+      "selected_epoch": 16
+    },
+    {
+      "role": "phase_router",
+      "filename": "phase_router_seed123.pt",
+      "bytes": 117495746,
+      "sha256": "bfd86d2752720e1040d9ab7c76f7117a087e2d13b47b297408670db3e16946e3",
+      "seed": 123
+    },
+    {
+      "role": "phase_router",
+      "filename": "phase_router_seed456.pt",
+      "bytes": 117495746,
+      "sha256": "f99be01994ccca06142a011df207731e07e8240ac1c1ac948b74031969baa7e6",
+      "seed": 456
+    },
+    {
+      "role": "phase_router",
+      "filename": "phase_router_seed789.pt",
+      "bytes": 117495746,
+      "sha256": "fb27d2104995d7ad559ca67e75de83c5de63b9c48ee7806eaa23b1ed8197a49b",
+      "seed": 789
+    }
+  ]
+}

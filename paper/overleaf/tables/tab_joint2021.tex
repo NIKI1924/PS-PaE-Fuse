@@ -1,0 +1,22 @@
+\begin{tabular}{llccc}
+\hline
+System & Output & nMSE & CSI$_{20}$ & $Q$ \\
+\hline
+Overall error only, $\lambda=0$ & Raw & 0.97795 (0.00008) & 0.1465 (0.0004) & 1.1060 \\
+Overall error only, $\lambda=0$ & Safeguarded & 0.98363 (0.00008) & 0.2099 (0.0001) & 1.1022 \\
+Joint, $\lambda=0.15$ & Raw & 0.97790 (0.00005) & 0.1550 (0.0004) & 1.1047 \\
+Joint, $\lambda=0.15$ & Safeguarded & 0.98361 (0.00005) & 0.2094 (0.0000) & 1.1022 \\
+Joint, $\lambda=1.5$ & Raw & 0.97823 (0.00010) & 0.1625 (0.0012) & 1.1039 \\
+Joint, $\lambda=1.5$ & Safeguarded & 0.98396 (0.00010) & 0.2083 (0.0005) & 1.1027 \\
+Joint, gradient-calibrated $\lambda=3.18$ & Raw & 0.97833 (0.00013) & 0.1638 (0.0013) & 1.1038 \\
+Joint, gradient-calibrated $\lambda=3.18$ & Safeguarded & 0.98407 (0.00013) & 0.2082 (0.0002) & 1.1028 \\[5pt]
+Ridge stacking (initialization) & Raw & 0.97787 & 0.1466 & 1.1059 \\
+Ridge stacking (initialization) & Safeguarded & 0.98355 & 0.2099 & 1.1021 \\
+Simple mean & Raw & 0.99883 & 0.1665 & 1.1239 \\
+Simple mean & Safeguarded & 1.00455 & 0.2105 & 1.1230 \\
+Pangu-Weather & Member & 1.46201 & 0.1819 & 1.5847 \\
+GraphCast & Member & 1.25170 & 0.1625 & 1.3773 \\
+FuXi & Member & 1.18124 & 0.1616 & 1.3070 \\
+ECMWF HRES & Member & 1.75541 & 0.1552 & 1.8821 \\
+\hline
+\end{tabular}

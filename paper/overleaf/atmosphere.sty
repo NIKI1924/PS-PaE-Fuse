@@ -1,0 +1,73 @@
+% atmosphere.sty -- Advances in Atmospheric Sciences sample style (AAS LaTeX template,
+% AsampleLATEX.zip from https://www.iapjournals.ac.cn/aas/AuthorGuide), with one change:
+% \usepackage{pstricks} is removed because it is not needed and breaks pdfLaTeX on Overleaf.
+\usepackage{upgreek}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{wasysym}
+%\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{enumerate}
+\usepackage{tikz}
+%\usepackage{pstricks}                % removed: PSTricks is not supported by pdfLaTeX
+\usepackage{hyperref}
+\usepackage{dsfont}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{balance}
+\usepackage{makeidx}
+\usepackage{multicol}
+\usepackage{calc}
+\usepackage{wrapfig}
+%\usepackage{picins}
+\usepackage{sidecap}
+\usepackage{picinpar}
+\usepackage[perpage,stable]{footmisc}
+\usepackage[OT2,OT1]{fontenc}
+\usepackage{mathrsfs}
+\usepackage{esint}
+\usepackage{pifont}
+\usepackage{lscape}
+\usepackage{bm}
+\usepackage{framed}
+\usepackage{mathptmx}%{times}
+\usepackage{newtxtext}
+\usepackage{lineno}
+\linenumbers
+\def\linenumberfont{\normalfont\small}
+
+\usepackage[small]{caption2}
+\renewcommand{\captionlabeldelim}{\quad}
+
+
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thefigure}{\arabic{figure}}
+
+\usepackage[papersize={215.9mm,279.4mm},text={152.5mm,203.2mm},top=38.1mm,left=31.7mm,headsep=12.7mm,footskip=12.7mm,dvips=false,pdftex=false,vtex=false,centering]{geometry}
+
+\fancypagestyle{firstpage}{%
+\fancyhead{} % clear all header fields
+\fancyfoot{} % clear all footer fields
+\fancyfoot[CE,CO]{\vspace*{0mm}\footnotesize\copyright~Higher Education Press and Springer-Verlag GmbH Germany, part of Springer Nature~\volumeyear}%
+\renewcommand{\headrule}{}
+\renewcommand{\headrulewidth}{0pt}
+}
+
+\pagestyle{fancy}
+\fancyhf{} % delete current setting for header and footer
+\fancyhead[EC]{}
+\fancyhead[OC]{}
+\fancyhead[LE,RO]{\thepage} %
+\fancyhead[RE,LO]{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{0.0pt} % make space for the rule
+\fancypagestyle{plain}{%
+\fancyhead[LE,RO]{\thepage} %
+\renewcommand{\headrulewidth}{0pt} % and the line
+}

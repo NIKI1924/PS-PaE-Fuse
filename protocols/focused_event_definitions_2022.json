@@ -1,0 +1,23 @@
+{
+  "status": "frozen_before_2022_scores",
+  "primary_date_population": "the 32 fixed GraphCast-FuXi common 2022 initializations; no event-enriched dates",
+  "tropical_cyclone": {
+    "source": "IBTrACS v04r01",
+    "definition": "a valid-time grid point within 500 km of an IBTrACS storm centre",
+    "independent_system_unit": "unique IBTrACS SID",
+    "minimum_independent_systems_for_inferential_reporting": 10
+  },
+  "cold_surge": {
+    "definition": "a 48 h ERA5 2 m temperature fall of at least 6 K whose final state is below the pre-2022 local p05 climatological threshold",
+    "time_pairs_hours": [[72, 120], [120, 168]],
+    "independent_system_unit": "initialization date with a non-empty affected mask",
+    "minimum_independent_systems_for_inferential_reporting": 10
+  },
+  "non_tropical_high_wind": {
+    "definition": "ERA5 wind speed at or above both the pre-2022 local q97.5 threshold and 20 m s-1 after excluding tropical-cyclone influence masks",
+    "independent_system_unit": "initialization date with a non-empty affected mask",
+    "minimum_independent_systems_for_inferential_reporting": 10
+  },
+  "reporting_rule": "strata below the minimum count are descriptive only and cannot support a superiority claim",
+  "selection_contract": "definitions and thresholds are independent of PS-PaE-Fuse/Pangu comparative performance"
+}
