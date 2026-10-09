@@ -6,9 +6,9 @@
    valid time, common units and north-to-south latitude order.
 3. Use the 2020 development data only to fit thresholds, the shared Gaussian
    scale and any EMOS parameters.
-4. Once the planned GitHub Release is published, download the four frozen
-   PS-PaE-Fuse assets and verify their SHA-256 hashes against
-   `checkpoints/manifest.json`. Binary publication is still pending in this delivery.
+4. Download the four frozen PS-PaE-Fuse assets from the published GitHub Release
+   `v1.0-paper-assets` and verify their SHA-256 hashes against
+   `checkpoints/manifest.json`. All four remote digests were verified at publication.
 5. Run the cross-year and 2022 evaluations from `evaluation/`, replacing the
    historical site-specific data roots with local paths.
 6. Build the manuscript with `pdflatex main.tex` twice from `paper/overleaf/`.

@@ -1,5 +1,15 @@
 # Build and quality-control record 20261009
 
+## Public-release update v12
+
+All four frozen checkpoints were uploaded to GitHub Release
+`v1.0-paper-assets`; GitHub returned SHA-256 digests matching the local manifest
+for every checkpoint. The manuscript availability statement was changed from
+future deposition to publicly available. Author metadata, the title, Figure 6
+and scientific results are unchanged. Earlier sections below preserve the
+historical build states and should not be interpreted as the current upload
+status. The remaining author declarations still require confirmation.
+
 ## Author metadata update v11
 
 Both main and supplementary author blocks were updated from the authors'

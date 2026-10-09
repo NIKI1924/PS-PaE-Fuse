@@ -1,4 +1,4 @@
-# AAS Overleaf 版本 20261009 Authors confirmed
+# AAS Overleaf 版本 20261009 Public release
 
 目标期刊：Advances in Atmospheric Sciences（AAS）。
 
@@ -8,7 +8,7 @@
 
 ## 如何编译
 
-1. 在 Overleaf 中选择 New Project → Upload Project，上传 `PS-PaE-Fuse_AAS_Overleaf_authors_confirmed_20261009.zip`。
+1. 在 Overleaf 中选择 New Project → Upload Project，上传 `PS-PaE-Fuse_AAS_Overleaf_public_release_20261009.zip`。
 2. 主文件选择 `main.tex`，编译器选择 **pdfLaTeX**。
 3. 补充材料单独编译：将主文件临时切换为 `supplement.tex`。
 4. 图件全部通过 `figures/` 的相对路径引用；表格使用 `tables/` 的相对路径。本包不依赖 Windows 本机绝对路径。
@@ -29,11 +29,11 @@
 
 ## GitHub 当前状态
 
-代码仓库首个版本已经推送。四个 checkpoint 已下载并核对，但二进制上传尚未完成。
+代码、作者确认版论文和 Figure 6 修正版已推送。四个 checkpoint 已上传完成，GitHub 返回的 SHA-256 digest 与本地冻结清单逐项一致。
 
-论文现采用真实状态：checkpoint **将在最终投稿前**发布到
+论文现采用真实状态：checkpoint **已公开发布**到
 https://github.com/NIKI1924/PS-PaE-Fuse/releases/tag/v1.0-paper-assets。
-该地址为预定发布地址，不应被解释为四个二进制文件已可下载。待发布成功后，仅需把 Code availability 中的将来时改为已公开，并核对下载链接。
+Code availability 已改为已公开。Release 同时提供主文 PDF、补充材料 PDF 和完整 Overleaf ZIP；优先下载名称含 `public_release_20261009` 的最新版论文文件。Release 标签保留初版代码快照，最新论文源码在仓库 main 分支；不要误把自动生成的标签 Source code ZIP 当成最新版 Overleaf 包。
 
 完整版本/来源说明、逐 epoch CSV 和四个 checkpoint 校验清单附在 Overleaf 包的 `reproducibility/` 目录。
 
